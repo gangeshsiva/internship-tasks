@@ -1,5 +1,6 @@
 {
     "input_directory":"C:/Users/gangeshvar.s/Desktop/highlighttext/input",
     "output_directory":"C:/Users/gangeshvar.s/Desktop/highlighttext/output",
+    
     "pattern":"ICD-\\d+-CM:\\s*([A-Z]?\\d+(?:\\.\\d+)?(?:\\s*,\\s*[A-Z]?\\d+(?:\\.\\d+)?)*)"
 }
