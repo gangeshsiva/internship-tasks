@@ -6,14 +6,8 @@ import sys
 from flask import Flask, request, jsonify
 from datetime import datetime
 
-#input_pdf_path = r"C:\Users\gangeshvar.s\Desktop\highlighttext\input\AI_11_ISC_2 1.pdf"
-#output_pdf_path = r"C:\Users\gangeshvar.s\Desktop\highlighttext\output\AI_11_ISC_2 1.pdf"
-
 app=Flask(__name__)
 
-# Match 'CM:' literally, then capture the ICD code
-#pattern = r'CM:\s*([A-Z0-9]+\.[0-9]+|[A-Z0-9]+)'
-# os.makedirs(logf,exist_ok=True)
 os.makedirs('input',exist_ok=True)
 os.makedirs('output',exist_ok=True)
 os.makedirs('logs',exist_ok=True)
@@ -61,7 +55,8 @@ def highlight_regex_in_pdf(input_pdf_path, output_pdf_path, pattern,logpath):
 
     except Exception as e:
         log_exception(e,"highlight_regex_in_pdf",logpath)
-   
+
+
 
 
 @app.route('/',methods=["POST","GET"])
@@ -69,28 +64,31 @@ def main_route():
     try:
         datas=request.get_json()
         pdfname=datas['filename']
+        print(pdfname)
         logfilename=pdfname.split('.')[0]+".txt"
         logpath=os.path.join('logs',logfilename)
-
+        print(datas)
         
-        input_pdf_path=os.path.join(input_pdf,pdfname+'.pdf')
+        input_pdf_path=os.path.join(input_pdf,pdfname)
 
         if not pdfname or not pdfname.lower().endswith('.pdf'):
-            log_exception("file unsupported or filename not given","main_route",logpath)
+            log_exception(Exception("file unsupported or filename not given"),"main_route",logpath)
             return "error"
 
         
         if not os.path.exists(input_pdf_path):
-            log_exception("file not found in system","main_route",logpath)
+            log_exception(Exception("file not found in system"),"main_route",logpath)
             return "error"
         
-        output_pdf_path=os.path.join(output_pdf,pdfname+'.pdf')
-
+        output_pdf_path=os.path.join(output_pdf,pdfname)
+        print(output_pdf_path)
         # Run the function
         highlight_regex_in_pdf(input_pdf_path, output_pdf_path, pattern,logpath)
+        # return jsonify({"output_pdf_path": output_pdf_path})
+        return output_pdf_path
 
     except Exception as e:
         log_exception(e,"main_route",logpath)
 
 if __name__== "__main__" :
-    app.run(host="0.0.0.0",port=4589)
+    app.run()
