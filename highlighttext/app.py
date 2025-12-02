@@ -11,6 +11,7 @@ app=Flask(__name__)
 os.makedirs('input',exist_ok=True)
 os.makedirs('output',exist_ok=True)
 os.makedirs('logs',exist_ok=True)
+os.makedirs('jsonoutput',exist_ok=True)
 
 #logging the error
 def log_exception(e, func_name, logfile):
@@ -33,14 +34,39 @@ output_pdf=config_data["output_directory"]
 pattern=config_data["pattern"]
 
 
-def highlight_regex_in_pdf(input_pdf_path, output_pdf_path, pattern,logpath):
+def extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath):
     try:
         doc = fitz.open(input_pdf_path)
         regex = re.compile(pattern)
 
-        for page in doc:
+        results=[]
+
+        for page_num,page in enumerate(doc,start=1):
             page_text = page.get_text("text")
             matches = regex.findall(page_text)  # Only captures the code
+            words = page.get_text('words')
+            
+
+            word_coords= []
+
+            for w in words:
+                word_coords.append({
+                    "text": w[4],
+                    "x0": w[0],
+                    "y0": w[1],
+                    "x1": w[2],
+                    "y1": w[3]
+                })
+
+            page_output={
+                "page" : page_num,
+                "codes": matches,
+                "coords" : word_coords
+            }
+
+            results.append(page_output)
+
+
             for matched_text in matches:
                 matched_text = matched_text.strip()
                 if matched_text:
@@ -51,7 +77,11 @@ def highlight_regex_in_pdf(input_pdf_path, output_pdf_path, pattern,logpath):
 
         doc.save(output_pdf_path)
         doc.close()
-        print(f"Highlighted PDF saved as: {output_pdf_path}")
+        
+
+        with open(jsonpath, "w") as g:
+            json.dump(results, g ,indent=4)
+        
 
     except Exception as e:
         log_exception(e,"highlight_regex_in_pdf",logpath)
@@ -67,6 +97,10 @@ def main_route():
         print(pdfname)
         logfilename=pdfname.split('.')[0]+".txt"
         logpath=os.path.join('logs',logfilename)
+        jsonfilename=pdfname.split('.')[0]+".json"
+        jsonpath=os.path.join('jsonoutput',jsonfilename)
+
+
         print(datas)
         
         input_pdf_path=os.path.join(input_pdf,pdfname)
@@ -83,8 +117,7 @@ def main_route():
         output_pdf_path=os.path.join(output_pdf,pdfname)
         print(output_pdf_path)
         # Run the function
-        highlight_regex_in_pdf(input_pdf_path, output_pdf_path, pattern,logpath)
-        # return jsonify({"output_pdf_path": output_pdf_path})
+        extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath)
         return output_pdf_path
 
     except Exception as e:
