@@ -36,8 +36,8 @@ input_pdf=config_data["input_directory"]
 output_pdf=config_data["output_directory"]
 pattern=config_data["pattern"]
 
-
-def extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,library):
+#extract_pdf is connected to highlight_pdf (we are sending the icd codes to highlight and only using the fitz in highlighting)
+def extract_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,library):
     
     regex = re.compile(pattern)
     results=[] 
@@ -70,19 +70,12 @@ def extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,j
 
                 results.append(page_output)
 
-                for matched_text in matches:
-                    matched_text = matched_text.strip()   #.strip removes any spaces
-                    if matched_text:
-                        text_instances = page.search_for(matched_text)
-                        for inst in text_instances:
-                            highlight = page.add_highlight_annot(inst)
-                            highlight.update()
-
-            doc.save(output_pdf_path)
+            highlight_pdf(input_pdf_path, output_pdf_path,logpath,results)
+            
             doc.close()
                 
         except Exception as e:
-            log_exception(e,"extract_and_highlight_pdf using fitz",logpath)
+            log_exception(e,"extract_pdf using fitz",logpath)
     
     elif library == "pdfplumber":
         try:
@@ -111,14 +104,46 @@ def extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,j
                             
                             results.append(page_output)
             
+            highlight_pdf(input_pdf_path, output_pdf_path,logpath,results)
+
             pdf.close()
         
         except Exception as e:
-            log_exception(e,"extract_and_highlight_pdf using pdfplumber",logpath)
+            log_exception(e,"extract_pdf using pdfplumber",logpath)
 
     with open(jsonpath, "w") as g:
         json.dump(results, g ,indent=4)
 
+def highlight_pdf(input_pdf_path, output_pdf_path,logpath,results):
+
+    try:
+        hdoc = fitz.open(input_pdf_path)
+
+        for page_num, page in enumerate(hdoc, start=1):
+            # Loop through results to find the matching page
+            page_result = None
+            for r in results:
+                if r['page'] == page_num:
+                    page_result = r
+                    break  # stop once the correct page is found
+            
+            if not page_result:
+                continue  # skip if no codes found for this page
+
+            for matched_text in page_result['codes']:
+                matched_text = matched_text.strip()
+                if matched_text:
+                    # search_for returns list of rectangles for the text
+                    text_instances = page.search_for(matched_text)
+                    for inst in text_instances:
+                        highlight = page.add_highlight_annot(inst)
+                        highlight.update()
+
+        hdoc.save(output_pdf_path)
+        hdoc.close()
+
+    except Exception as e:
+        log_exception(e, "highlight_pdf using fitz", logpath)
 
 
 @app.route('/',methods=["POST","GET"])
@@ -153,7 +178,7 @@ def main_route():
         output_pdf_path=os.path.join(output_pdf,pdfname)
         print(output_pdf_path)
         # Run the function
-        extract_and_highlight_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,library)
+        extract_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,library)
         return output_pdf_path
 
     except Exception as e:
