@@ -13,10 +13,6 @@ from PIL import Image
 import pytesseract
 from pytesseract import Output
 
-os.environ['TESSDATA_PREFIX'] = 'C:\\Tesseract-OCR\\tessdata'
-
-pytesseract.pytesseract.tesseract_cmd = "C:\\Tesseract-OCR\\tesseract.exe"
-
 app=Flask(__name__)
 
 os.makedirs('input',exist_ok=True)
@@ -43,6 +39,10 @@ with open('config.json','r') as f:
 input_pdf=config_data["input_directory"]
 output_pdf=config_data["output_directory"]
 pattern=config_data["pattern"]
+os.environ['TESSDATA_PREFIX'] = config_data["tessdata"]
+pytesseract.pytesseract.tesseract_cmd = config_data["tesseract_exepath"]
+popplerpath=config_data["popplerpath"]
+
 
 #extract_pdf is connected to highlight_pdf (we are sending the icd codes to highlight and only using the fitz in highlighting)
 def extract_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,library):
@@ -121,7 +121,7 @@ def extract_pdf(input_pdf_path, output_pdf_path, pattern,logpath,jsonpath,librar
 
     elif library =="pytesseract":
         try:
-            pages = convert_from_path(input_pdf_path, poppler_path="C:\\poppler-22.12.0\\Library\\bin")   #converts the pages into a set of images
+            pages = convert_from_path(input_pdf_path, poppler_path=popplerpath)   #converts the pages into a set of images
 
             for page_num, page in enumerate(pages,start=1):
                 page_text=pytesseract.image_to_string(page,lang='eng')

@@ -1,6 +1,8 @@
 {
     "input_directory":"input/",
     "output_directory":"output/",
-    
+    "tessdata":"C:\\Tesseract-OCR\\tessdata",
+    "tesseract_exepath":"C:\\Tesseract-OCR\\tesseract.exe",
+    "popplerpath":"C:\\poppler-22.12.0\\Library\\bin",
     "pattern":"ICD-\\d+-CM:\\s*([A-Z]?\\d+(?:\\.\\d+)?(?:\\s*,\\s*[A-Z]?\\d+(?:\\.\\d+)?)*)"
 }
