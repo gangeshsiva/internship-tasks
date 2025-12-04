@@ -1,0 +1,38 @@
+
+[2025-12-04 15:10:40.402049] In langchainrag LINE.NO-61 : 'str' object has no attribute 'page_content' error 'str' object has no attribute 'page_content'
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 1 has invalid or empty text.
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 1 has invalid page number.
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 2 has invalid or empty text.
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 2 has invalid page number.
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 3 has invalid or empty text.
+
+[2025-12-04 15:32:24.138634] In langchainrag LINE.NO-N/A : None error Chunk 3 has invalid page number.
+
+[2025-12-04 15:32:24.154382] In langchainrag LINE.NO-N/A : None error Chunk 4 has invalid or empty text.
+
+[2025-12-04 15:32:24.156005] In langchainrag LINE.NO-N/A : None error Chunk 4 has invalid page number.
+
+[2025-12-04 15:32:24.157015] In langchainrag LINE.NO-N/A : None error Chunk 5 has invalid or empty text.
+
+[2025-12-04 15:32:24.158016] In langchainrag LINE.NO-N/A : None error Chunk 5 has invalid page number.
+
+[2025-12-04 15:32:24.159433] In langchainrag LINE.NO-70 : 'dict' object has no attribute 'page_content' error 'dict' object has no attribute 'page_content'
+
+[2025-12-04 15:33:53.826123] In langchainrag LINE.NO-70 : 'dict' object has no attribute 'page_content' error 'dict' object has no attribute 'page_content'
+
+[2025-12-04 15:39:05.689034] In langchainrag LINE.NO-70 : 'dict' object has no attribute 'page_content' error 'dict' object has no attribute 'page_content'
+
+[2025-12-04 16:01:44.967855] In langchainrag LINE.NO-76 : 'str' object has no attribute 'page_content' error 'str' object has no attribute 'page_content'
+
+[2025-12-04 16:08:33.414819] In langchainrag LINE.NO-81 : 'str' object has no attribute 'page_content' error 'str' object has no attribute 'page_content'
+
+[2025-12-04 16:12:56.190764] In langchainrag LINE.NO-81 : 'str' object has no attribute 'page_content' error 'str' object has no attribute 'page_content'
+
+[2025-12-04 16:14:06.398955] In langchainrag LINE.NO-84 : 'coroutine' object has no attribute 'as_retriever' error 'coroutine' object has no attribute 'as_retriever'
+
+[2025-12-04 16:15:10.852323] In langchainrag LINE.NO-81 : Could not import faiss python package. Please install it with `pip install faiss-gpu` (for CUDA supported GPU) or `pip install faiss-cpu` (depending on Python version). error Could not import faiss python package. Please install it with `pip install faiss-gpu` (for CUDA supported GPU) or `pip install faiss-cpu` (depending on Python version).
