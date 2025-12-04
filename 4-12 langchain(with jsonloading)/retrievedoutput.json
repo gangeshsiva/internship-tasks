@@ -1,0 +1,11 @@
+{
+    "query": "Retrieve and report the latest available vital signs for the patient. Include: allergies, blood pressure, pulse, respiratory rate, SpO₂, and weight. Provide numerical values when applicable.",
+    "retrieved_chunks": [
+        ", MD Service: \u2014 Author Type: Physician\nFiled: 10/9/2024 1:17 PM Encounter Date: 10/9/2024 Creation Time: 10/9/2024 8:31 AM\nStatus: Sign when Signing Visit Editor: Callegan-Poche, Amanda L",
+        "Review of patient's allergies indicates:\nNo Known Allergies\nPhysical Examination\nVitals:\n10/09/24 0823\nBP: 133/63\nPulse: 62\nResp: 16\nSpO2: (!) 94%\nWeight: 84",
+        "Physical Exam\nHealth Maintenance / Imaging / Labs\nGenerated on 10/30/24 11:39 AM Page 5",
+        "Medical / Social / Family History\nPast Medical History:\nDiagnosis Date\n\u2022Diabetes mellitus, type 2\n\u2022Hyperlipidemia\n\u2022Hypertension\nNo past surgical history on file",
+        "8 04/08/2024\nAST 28 04/08/2024\nALT 36 04/08/2024\nAssessment\nWilliam F Melvin is a 76 y"
+    ]
+}
+ 
