@@ -1,0 +1,15 @@
+{"device" : "cpu",
+
+"EMBED_MODEL" :"BAAI/bge-large-en-v1.5",
+"RERANK_MODEL" : "BAAI/bge-reranker-v2-m3",
+
+"CHUNK_SIZE" : 500,
+"CHUNK_OVERLAP" : 150,
+"MIN_CHUNK_SIZE" : 200,
+
+"HNSW_M" : 64,
+"HNSW_EF_CONSTRUCTION" : 500,
+"HNSW_EF_SEARCH" : 300,
+"EMBED_DIM" : 1024
+
+}
