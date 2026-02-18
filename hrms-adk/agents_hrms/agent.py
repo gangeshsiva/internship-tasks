@@ -1,8 +1,8 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
-from reportee_data import reportee_tool
-from basic_emp_info import basic_info_tool
+from .reportee_data import reportee_tool
+from .basic_emp_info import basic_info_tool
 
 hr_basic_agent= LlmAgent(
     name="hr_basic_info_agent",
@@ -46,5 +46,5 @@ hrms_chatbot_agent = LlmAgent(
     ]
 )
 
-if __name__ == "__main__":
-    root_agent = hrms_chatbot_agent
+
+root_agent = hrms_chatbot_agent
