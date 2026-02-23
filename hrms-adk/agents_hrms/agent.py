@@ -8,7 +8,7 @@ hr_basic_agent= LlmAgent(
     name="hr_basic_info_agent",
     model="gemini-2.5-flash",
     description=(
-        "Fetches employee-related HR data. "
+        "Fetches employee-related basic information such as name, department, designation, date of joining, etc. "
         "Returns factual, structured information only. "
         "Takes raw HR data and rephrases it into a clear, "
         "polite, conversational response for the end user."
@@ -20,7 +20,7 @@ hr_reportee_agent = LlmAgent(
     name="hr_reportee_agent",
     model="gemini-2.5-flash",
     description=(
-        "Fetches employee-related HR data. "
+        "Fetches employees reporting to a specific manager. "
         "Returns factual, structured information only. "
         "Takes raw HR data and rephrases it into a clear, "
         "polite, conversational response for the end user."
@@ -38,7 +38,8 @@ hrms_chatbot_agent = LlmAgent(
     description=(
         "You are an HRMS assistant. "
         "Answer employee HR-related questions such as leave, tax, overtime, "
-        "reportee details, and general HR policy questions."
+        "reportee details, and general HR policy questions." 
+        "Use the hr_basic_info_agent for basic employee info queries and hr_reportee_agent for reportee details. "   
     ),
     tools=[
         hr_basic_agent_tool,

@@ -187,13 +187,16 @@ def make_json_safe(obj):
 
 def get_basic_info(employee_id: str) -> dict:
 
-    output = rf"C:\Users\gangeshvar.s\Desktop\hrms-adk\{employee_id}"
+    print("basic info tool selected")
+    output = rf"C:\Users\gangeshvar.s\Desktop\hrms deployment\hrms-adk\{employee_id}"
     os.makedirs(output, exist_ok=True)
     file_path = os.path.join(output, "basic_info.json") 
 
     if os.path.isfile(file_path):
         with open(file_path, "r") as f:
             data=json.load(f)
+
+        print("Basic info fetched from file cache.")
         return data
 
     else:
@@ -245,6 +248,8 @@ def get_basic_info(employee_id: str) -> dict:
 
         with open(file_path, "w") as f:
             json.dump(out, f, indent=4)
+
+        print("Basic info fetched and saved to file.")
         
         return out
 
