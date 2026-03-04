@@ -1,0 +1,8 @@
+{
+    "cptjsonpath" : "C://Users//gangeshvar.s//Documents//icdcpt//Mast_CPT.json",
+    "icdjsonpath" : "C://Users//gangeshvar.s//Documents//icdcpt//Mast_ICD10CM.json",
+    "sctjsonpath" : "C://Users//gangeshvar.s//Documents//icdcpt//Mast_SnowMedCodes.json",
+    "logfile" : "C://Users//gangeshvar.s//Documents//icdcpt//icdcptsnow//logfile.log",
+    "inputjsonpath" : "C://Users//gangeshvar.s//Downloads//CB-EHR-S2-2-22-2026.json",
+    "outputjsonpath" : "C://Users//gangeshvar.s//Documents//icdcpt//icdcptsnow//output.json"
+}
