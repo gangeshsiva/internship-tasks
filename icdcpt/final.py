@@ -226,7 +226,7 @@ def ICD_CPT_code(all_text, words_coordinates, logfile):
     for data in SCTjsondata['mastSnowMedCodes']:
         Snomedfilteredjson[data['Code']] = data['Description']
 
-    ICDpattern=r"\b(?<!\d{2})(?<!\d{2}\s)(?<!mo\s)(?<!A:\s)(?<!-)(?<!BMI:\s)[A-Z0-9]{1,4}\.[A-Z0-9]{1,3}\b(?!\s*(?:AM|PM|am|pm|m2|kg|F|/h|years|PST|PDT|\.|Ibs|cm|T|Fo|C|bpm|mL|mg|-|Wt|in|/|%))"
+    ICDpattern=r"\b(?<!\d{2})(?<!\d{2}\s)(?<!mo\s)(?<!A:\s)(?<!-)(?<!BMI:\s)[A-Z0-9]{1,4}[.,][A-Z0-9]{1,4}\b(?!\s*(?:AM|PM|am|pm|m2|kg|F|/h|years|PST|PDT|\.|Ibs|cm|T|Fo|C|bpm|mL|mg|-|Wt|in|/|%))"
 
     state_codes = [
         "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -292,13 +292,22 @@ def ICD_CPT_code(all_text, words_coordinates, logfile):
                         continue
 
                     # Fix first character
-                    if len(item) == 3 or (len(item) > 3 and item[3] == '.'):
+                    if len(item) > 3 and item[3] == '.':
                         first_char = first_letter_map.get(item[0], item[0])
                     
                         # Fix remaining characters
                         rest = ''.join(after_first_map.get(c, c) for c in item[1:])
                     
                         corrected_icd.append(first_char + rest)
+
+                    elif len(item) > 3 and item[3] == ',' :
+                        first_char = first_letter_map.get(item[0], item[0])
+                    
+                        # Fix remaining characters
+                        rest = ''.join(after_first_map.get(c, c) for c in item[1:])
+                        
+                        
+                        corrected_icd.append(first_char + rest[:2] + '.' + rest[3:])
 
                 for icd in corrected_icd:
                     if icd in ICDfilteredjson:
@@ -312,6 +321,8 @@ def ICD_CPT_code(all_text, words_coordinates, logfile):
                         ICD_data['date'] = formatted_date
                         pair = (ICD_data["code"], ICD_data["date"])
                         
+                        
+
                         if pair not in unique_pairs:
                             unique_pairs.add(pair)
                             all_data.append(ICD_data)
@@ -334,9 +345,12 @@ def ICD_CPT_code(all_text, words_coordinates, logfile):
                         CPT_data['date'] = formatted_date
                         pair = (CPT_data["code"], CPT_data["date"])
                         
+                        
+
                         if pair not in unique_pairs:
                             unique_pairs.add(pair)
                             all_data.append(CPT_data)
+                            
 
         with open(outputjsonpath, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, indent=4)
