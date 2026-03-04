@@ -29,9 +29,8 @@ except Exception as e:
     log_exception(e, "File Reading", logfile)
     print("Error in reading the input json file that contains the text to be processed.")
 
-words_coordinates=inputtext["coordinates"][0]    #list of dictionaries
+words_coordinates=inputtext["coordinates"]    #list of dictionaries
 all_text=inputtext["texts"]
-print(words_coordinates[0])
 
 def remove_duplicates(data):
     try:
@@ -54,13 +53,13 @@ def check_match_words(word, page_num, word_coordinates, isFuzz, logfile):
     try:
         reg = r'[^A-Za-z0-9]'
         word_list = []
+        isTrue = False
         for i, coordinate in enumerate(word_coordinates):
             if isFuzz:
                 re_word = re.sub(reg, "", word.lower())
-                print(coordinate["text"])
-                re_text = re.sub(reg, "", coordinate["text"].lower())
-                isTrue = fuzz.partial_ratio(re_text, re_word) > 90
-
+                if coordinate["text"]:
+                    re_text = re.sub(reg, "", coordinate["text"].lower())
+                    isTrue = fuzz.partial_ratio(re_text, re_word) > 90
             else:
                 isTrue = re.sub(reg, "", coordinate["text"].lower()) == re.sub(reg, "", word.lower())
 
@@ -344,7 +343,9 @@ def ICD_CPT_code(all_text, words_coordinates, logfile):
 
         data_with_cordinates = match_coordinates(all_data, words_coordinates, logfile)
         data_with_cordinates = remove_duplicates(data_with_cordinates)
+        print(data_with_cordinates)
         return data_with_cordinates
+    
 
     except Exception as e:
         log_exception(e, "ICD_CPT_code", logfile)      
