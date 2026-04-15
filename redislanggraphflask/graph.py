@@ -6,7 +6,7 @@ from typing_extensions import Annotated
 import operator
 
 class AgentState(TypedDict):
-    text : str
+    text : Annotated[Dict[str, Any], operator.or_]
     process : str
     results: Annotated[Dict[str, Any], operator.or_]
 
