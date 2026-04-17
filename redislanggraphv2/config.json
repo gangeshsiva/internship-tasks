@@ -1,0 +1,6 @@
+{
+    "cptjsonpath" : "Mast_CPT.json",
+    "icdjsonpath" : "Mast_ICD10CM.json",
+    "sctjsonpath" : "Mast_SnowMedCodes.json",
+    "logfile" : "logfile.txt"
+}
